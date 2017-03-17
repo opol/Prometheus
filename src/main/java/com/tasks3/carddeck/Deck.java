@@ -5,35 +5,50 @@ package com.tasks3.carddeck;
 import java.util.*;
 
 public class Deck {
+    static List<Suit> suitlist = Arrays.asList(Suit.values);
+    static List<Rank> ranklist = Arrays.asList( Rank.values);
 
-    Suit[] suits = Suit.values;
-    List<Suit> suitlist = Arrays.asList(suits);
-
-    Rank[] ranks = Rank.values;
-    List<Rank> ranklist = Arrays.asList(ranks);
+    private List<Card> cards;
 
     public static void main (String[] args){
         Deck deck = new Deck();
-        System.out.println(deck.deckStorage().toString());
+        deck.initDeck();
+        List<Card> cards = deck.getCards();
+
+
+        Collections.sort(cards, new Comparator<Card>() {
+            public int compare(Card c1, Card c2) {
+                int r1 = ranklist.indexOf(c1.getRank());
+                int r2 = ranklist.indexOf(c2.getRank());
+                int s1 = suitlist.indexOf(c1.getSuit());
+                int s2 = suitlist.indexOf(c2.getSuit());
+                return (s1 < s2) ? -1 :((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
+            }
+        });
+        for (Card card : cards) {
+            System.out.format("%s %s \n", card.getSuit().getName(), card.getRank().getName());
+        }
     }
 
+    public List<Card> getCards() {
+        return cards;
+    }
 
-    public List<Card> deckStorage() {
-
-        List<Card> carddeck = new LinkedList<Card>();
-        for (int i = 0; i <= (ranklist.size()-1); i++) {
-            for (int j = 0; j <= (suitlist.size()-1); j++) {
-                Card card = new Card(ranklist.get(i), suitlist.get(j));
-                carddeck.add(card);
+    public void initDeck() {
+        this.cards = new LinkedList<Card>();
+        for (int i = 0; i <= (suitlist.size()-1); i++) {
+            for (int j = 0; j <= (ranklist.size()-1); j++) {
+                Card card = new Card(ranklist.get(j), suitlist.get(i));
+                this.cards.add(card);
             }
         }
-        return carddeck;
+        shuffle();
     }
 
 
     //Перемішує колоду у випадковому порядку
     public void shuffle() {
-        Collections.shuffle(this.deckStorage());
+        Collections.shuffle(this.cards);
     }
 
     /* * Впорядкування колоди за мастями та значеннями
@@ -52,12 +67,29 @@ public class Deck {
     * HEARTS 6
     * І так далі для DIAMONDS, CLUBS, SPADES */
     public void order() {
-        Suit.HEARTS.getName();
+        Deck deck = new Deck();
+        deck.initDeck();
+        List<Card> cards = deck.getCards();
+
+
+        Collections.sort(cards, new Comparator<Card>() {
+            public int compare(Card c1, Card c2) {
+                int r1 = ranklist.indexOf(c1.getRank());
+                int r2 = ranklist.indexOf(c2.getRank());
+                int s1 = suitlist.indexOf(c1.getSuit());
+                int s2 = suitlist.indexOf(c2.getSuit());
+                return (s1 < s2) ? -1 :((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
+            }
+        });
+        for (Card card : cards) {
+            System.out.format("%s %s \n", card.getSuit().getName(), card.getRank().getName());
+        }
+
     }
 
     //Повертає true у випадку коли в колоді ще доступні карти
     public boolean hasNext() {
-        Iterator it = this.deckStorage().iterator();
+        Iterator it = this.cards.iterator();
         if (it.hasNext() == true){
             return true;
         }
@@ -69,8 +101,9 @@ public class Deck {
     //"Виймає" одну карту з колоди, коли буде видано всі 36 карт повертає null
     //Карти виймаються з "вершини" колоди. Наприклад перший виклик видасть SPADES 6 потім
     //SPADES 7, ..., CLUBS 6, ..., CLUBS Ace і так далі до HEARTS Ace
-    /*public Card drawOne() {
-    }*/
+    public Card drawOne() {
+        
+    }
 
 }
 
