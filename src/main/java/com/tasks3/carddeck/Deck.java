@@ -1,18 +1,20 @@
 package com.tasks3.carddeck;
 
-//import javax.smartcardio.Card;
-
 import java.util.*;
 
 public class Deck {
     static List<Suit> suitlist = Arrays.asList(Suit.values);
-    static List<Rank> ranklist = Arrays.asList( Rank.values);
+    static List<Rank> ranklist = Arrays.asList(Rank.values);
 
     private List<Card> cards;
 
-    public static void main (String[] args){
+    public static void main(String[] args) {
         Deck deck = new Deck();
         deck.initDeck();
+        //deck.shuffle();
+        //deck.order();
+        deck.drawOne();
+        /*deck.initDeck();
         List<Card> cards = deck.getCards();
 
 
@@ -22,12 +24,12 @@ public class Deck {
                 int r2 = ranklist.indexOf(c2.getRank());
                 int s1 = suitlist.indexOf(c1.getSuit());
                 int s2 = suitlist.indexOf(c2.getSuit());
-                return (s1 < s2) ? -1 :((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
+                return (s1 < s2) ? -1 : ((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
             }
         });
         for (Card card : cards) {
             System.out.format("%s %s \n", card.getSuit().getName(), card.getRank().getName());
-        }
+        }*/
     }
 
     public List<Card> getCards() {
@@ -36,13 +38,13 @@ public class Deck {
 
     public void initDeck() {
         this.cards = new LinkedList<Card>();
-        for (int i = 0; i <= (suitlist.size()-1); i++) {
-            for (int j = 0; j <= (ranklist.size()-1); j++) {
+        for (int i = 0; i <= (suitlist.size() - 1); i++) {
+            for (int j = 0; j <= (ranklist.size() - 1); j++) {
                 Card card = new Card(ranklist.get(j), suitlist.get(i));
                 this.cards.add(card);
             }
         }
-        shuffle();
+        //shuffle();
     }
 
 
@@ -78,7 +80,7 @@ public class Deck {
                 int r2 = ranklist.indexOf(c2.getRank());
                 int s1 = suitlist.indexOf(c1.getSuit());
                 int s2 = suitlist.indexOf(c2.getSuit());
-                return (s1 < s2) ? -1 :((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
+                return (s1 < s2) ? -1 : ((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
             }
         });
         for (Card card : cards) {
@@ -90,10 +92,9 @@ public class Deck {
     //Повертає true у випадку коли в колоді ще доступні карти
     public boolean hasNext() {
         Iterator it = this.cards.iterator();
-        if (it.hasNext() == true){
+        if (it.hasNext() == true) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -101,8 +102,28 @@ public class Deck {
     //"Виймає" одну карту з колоди, коли буде видано всі 36 карт повертає null
     //Карти виймаються з "вершини" колоди. Наприклад перший виклик видасть SPADES 6 потім
     //SPADES 7, ..., CLUBS 6, ..., CLUBS Ace і так далі до HEARTS Ace
-    public Card drawOne() {
-        
+    public void drawOne() {
+        initDeck();
+        /*Card drawcard;
+        for (int i = cards.size() - 1; i >= 0; i--) {
+            drawcard = cards.get(i);
+            if (i >= 0) {
+                System.out.format("%s %s \n", cards.get(i).getSuit().getName(),
+                        cards.get(i).getRank().getName());
+                return drawcard;
+            } else {
+                return null;
+            }
+        }*/
+
+        ListIterator<Card> cardListIterator = cards.listIterator(cards.size());
+        while (cardListIterator.hasPrevious())
+            //return cardListIterator.previous();
+            System.out.format("%s %s \n", cardListIterator.previous().getSuit().getName(),
+                    cardListIterator.previous().getRank().getName());
+        /*if (cardListIterator.hasPrevious()==false){
+        return null;}*/
+
     }
 
 }
