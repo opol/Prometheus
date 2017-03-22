@@ -7,29 +7,11 @@ public class Deck {
     static List<Rank> ranklist = Arrays.asList(Rank.values);
 
     private List<Card> cards;
+    private ListIterator<Card> cardListIterator;
 
-    public static void main(String[] args) {
-        Deck deck = new Deck();
-        deck.initDeck();
-        //deck.shuffle();
-        //deck.order();
-        deck.drawOne();
-        /*deck.initDeck();
-        List<Card> cards = deck.getCards();
-
-
-        Collections.sort(cards, new Comparator<Card>() {
-            public int compare(Card c1, Card c2) {
-                int r1 = ranklist.indexOf(c1.getRank());
-                int r2 = ranklist.indexOf(c2.getRank());
-                int s1 = suitlist.indexOf(c1.getSuit());
-                int s2 = suitlist.indexOf(c2.getSuit());
-                return (s1 < s2) ? -1 : ((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
-            }
-        });
-        for (Card card : cards) {
-            System.out.format("%s %s \n", card.getSuit().getName(), card.getRank().getName());
-        }*/
+    public Deck() {
+        super();
+        initDeck();
     }
 
     public List<Card> getCards() {
@@ -44,13 +26,16 @@ public class Deck {
                 this.cards.add(card);
             }
         }
-        //shuffle();
+        initIterator();
     }
 
 
     //Перемішує колоду у випадковому порядку
     public void shuffle() {
         Collections.shuffle(this.cards);
+        /*for (Card card : cards) {
+            System.out.format("%s %s \n", card.getSuit().getName(), card.getRank().getName());
+        }*/
     }
 
     /* * Впорядкування колоди за мастями та значеннями
@@ -83,47 +68,30 @@ public class Deck {
                 return (s1 < s2) ? -1 : ((s1 == s2) ? (r1 < r2) ? -1 : ((r1 == r2) ? 0 : 1) : 1);
             }
         });
-        for (Card card : cards) {
+        /*for (Card card : cards) {
             System.out.format("%s %s \n", card.getSuit().getName(), card.getRank().getName());
-        }
+        }*/
 
+    }
+
+    public void initIterator() {
+        cardListIterator = cards.listIterator(cards.size());
     }
 
     //Повертає true у випадку коли в колоді ще доступні карти
     public boolean hasNext() {
-        Iterator it = this.cards.iterator();
-        if (it.hasNext() == true) {
-            return true;
-        } else {
-            return false;
-        }
+        return cardListIterator.hasNext();
     }
 
     //"Виймає" одну карту з колоди, коли буде видано всі 36 карт повертає null
     //Карти виймаються з "вершини" колоди. Наприклад перший виклик видасть SPADES 6 потім
     //SPADES 7, ..., CLUBS 6, ..., CLUBS Ace і так далі до HEARTS Ace
-    public void drawOne() {
-        initDeck();
-        /*Card drawcard;
-        for (int i = cards.size() - 1; i >= 0; i--) {
-            drawcard = cards.get(i);
-            if (i >= 0) {
-                System.out.format("%s %s \n", cards.get(i).getSuit().getName(),
-                        cards.get(i).getRank().getName());
-                return drawcard;
-            } else {
-                return null;
-            }
-        }*/
-
-        ListIterator<Card> cardListIterator = cards.listIterator(cards.size());
-        while (cardListIterator.hasPrevious())
-            //return cardListIterator.previous();
-            System.out.format("%s %s \n", cardListIterator.previous().getSuit().getName(),
-                    cardListIterator.previous().getRank().getName());
-        /*if (cardListIterator.hasPrevious()==false){
-        return null;}*/
-
+    public Card drawOne() {
+        if (cardListIterator.hasPrevious()) {
+            return cardListIterator.previous();
+        } else {
+            return null;
+        }
     }
 
 }
