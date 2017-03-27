@@ -1,13 +1,15 @@
 package com.tasks5.command;
 
-/**
- * Created by Ulyana on 24-Mar-17.
- */
-public class Echo implements Command {
 
+public class Echo implements Command {
     private String s = "";
-    public Echo(String text) {
-        this.s = text;
+    public Echo(String[] args) {
+        if (args.length < 2) {
+            return;
+        }
+        for (int i = 1; i < args.length; i++) {
+            s += args[i] + " ";
+        }
     }
 
     public void execute() {
