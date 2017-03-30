@@ -12,30 +12,40 @@ public class Application2 {
             StringBuilder dest = new StringBuilder();
 
             for (int i = 0; i < source.length; i++) {
-                if (i>=1 && source[i] == source[i - 1]) {
+                if (i >= 1 && source[i] == source[i - 1]) {
                     System.out.println();
                     return;
                 }
-                    String el = String.valueOf(source[i]);
+                String current_el = String.valueOf(source[i]);
 
-                    int number = 0;
+
+                int number = 0;
+                try {
+                    number = Integer.parseInt(current_el);
+                } catch (NumberFormatException e) {
+                    dest.append(source[i]);
+                    continue;
+                }
+                int num2 = 0;
+                if (i >= 1) {
+                    String prev_el = String.valueOf(source[i - 1]);
                     try {
-                        number = Integer.parseInt(el);
+                        num2 = Integer.parseInt(prev_el);
+                        System.out.println();
+                        return;
                     } catch (NumberFormatException e) {
-                        dest.append(source[i]);
-                        continue;
-                    }
 
-                
-
-
-                    for (int j = 1; j < number; j++) {
-                        dest.append(source[i - 1]);
                     }
                 }
 
-                System.out.print(dest.toString());
+
+                for (int j = 1; j < number; j++) {
+                    dest.append(source[i - 1]);
+                }
             }
+
+            System.out.print(dest.toString());
         }
     }
+}
 
