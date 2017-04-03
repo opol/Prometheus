@@ -22,6 +22,13 @@ public class Application2 {
                 int number = 0;
                 try {
                     number = Integer.parseInt(current_el);
+                    if (number<2 || number>9){
+                        System.out.println();
+                        return;
+                    } else if (i==0){
+                        System.out.println();
+                        return;
+                    }
                 } catch (NumberFormatException e) {
                     dest.append(source[i]);
                     continue;
